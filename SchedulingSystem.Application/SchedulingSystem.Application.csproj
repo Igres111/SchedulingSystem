@@ -8,7 +8,10 @@
 
   <ItemGroup>
     <Folder Include="Dtos\" />
-    <Folder Include="Interfaces\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="13.1.0" />
   </ItemGroup>
 
   <ItemGroup>

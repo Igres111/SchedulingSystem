@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchedulingSystem.Applicatio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchedulingSystem.Infrastructure", "SchedulingSystem.Infrastructure\SchedulingSystem.Infrastructure.csproj", "{862F896A-E722-4D0F-B452-91F17021B279}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchedulingSystem.Shared", "ScheduleSystem.Shared\SchedulingSystem.Shared.csproj", "{AF960EFB-C606-424B-8323-B8B28F042D1F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{862F896A-E722-4D0F-B452-91F17021B279}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{862F896A-E722-4D0F-B452-91F17021B279}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{862F896A-E722-4D0F-B452-91F17021B279}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF960EFB-C606-424B-8323-B8B28F042D1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF960EFB-C606-424B-8323-B8B28F042D1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF960EFB-C606-424B-8323-B8B28F042D1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF960EFB-C606-424B-8323-B8B28F042D1F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

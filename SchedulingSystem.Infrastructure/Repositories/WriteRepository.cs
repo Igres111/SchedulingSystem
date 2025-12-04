@@ -32,4 +32,9 @@ public class WriteRepository<TEntity> : IWriteRepository<TEntity>
         entity.DeletedAt = DateTime.UtcNow;
         return Task.CompletedTask;
     }
+
+    public Task SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        return DbContext.SaveChangesAsync(cancellationToken);
+    }
 }

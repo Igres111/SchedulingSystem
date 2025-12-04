@@ -1,5 +1,8 @@
 using DotNetEnv;
+using SchedulingSystem.Application;
+using SchedulingSystem.Application.Options;
 using SchedulingSystem.Infrastructure;
+using SchedulingSystem.WebApi.Extensions;
 using SchedulingSystem.WebApi.Middleware;
 using Serilog;
 
@@ -17,12 +20,18 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddSwaggerWithJwt();
+builder.Services.AddJwtAuthentication(builder.Configuration);
+
+builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 
 builder.Services.AddMediatR(cfg =>
 {
     cfg.RegisterServicesFromAssembly(typeof(SchedulingSystem.Application.AssemblyReference).Assembly);
 });
+
+builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Jwt"));
 
 var app = builder.Build();
 

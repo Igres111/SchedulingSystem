@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ScheduleSystem.Shared\SchedulingSystem.Shared.csproj" />
+    <Folder Include="Helpers\" />
   </ItemGroup>
 
 </Project>

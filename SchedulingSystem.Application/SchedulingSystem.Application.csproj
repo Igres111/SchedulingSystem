@@ -17,9 +17,4 @@
     <ProjectReference Include="..\SchedulingSystem.Domain\SchedulingSystem.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Queries\" />
-    <Folder Include="Services\" />
-  </ItemGroup>
-
 </Project>

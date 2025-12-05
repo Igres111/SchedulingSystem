@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using SchedulingSystem.WebApi.Models;
 using System.Net;
 using System.Text.Json;
@@ -42,7 +43,14 @@ public class ExceptionHandlingMiddleware
 
         switch (exception)
         {
+            case ValidationException validationException:
+                statusCode = HttpStatusCode.BadRequest;
+                message = string.Join("; ",
+                    validationException.Errors.Select(e => e.ErrorMessage));
+                break;
+
             case ArgumentException:
+            case ApplicationException:
                 statusCode = HttpStatusCode.BadRequest;
                 message = exception.Message;
                 break;
@@ -79,4 +87,3 @@ public class ExceptionHandlingMiddleware
         await context.Response.WriteAsync(json);
     }
 }
-

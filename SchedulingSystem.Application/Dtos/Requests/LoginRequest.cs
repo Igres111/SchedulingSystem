@@ -1,7 +1,3 @@
-﻿namespace SchedulingSystem.Application.Dtos.Requests;
+namespace SchedulingSystem.Application.Dtos.Requests;
 
-public record LoginRequest
-{
-    public string Email { get; init; } = string.Empty;
-    public string Password { get; init; } = string.Empty;
-}
+public record LoginRequest(string Email, string Password);

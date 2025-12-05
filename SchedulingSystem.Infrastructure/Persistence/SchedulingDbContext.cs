@@ -10,7 +10,6 @@ public class SchedulingDbContext(DbContextOptions<SchedulingDbContext> options)
     public DbSet<Role> Roles { get; set; } = null!;
     public DbSet<Job> Jobs { get; set; } = null!;
     public DbSet<Schedule> Schedules { get; set; } = null!;
-    public DbSet<ScheduleRequest> ScheduleRequests { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

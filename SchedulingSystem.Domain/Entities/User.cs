@@ -14,6 +14,8 @@ public class User : BaseEntity
     public Guid RoleId { get; set; }
     public Role Role { get; set; } = null!;
 
+    public Guid JobId { get; set; }
+    public Job Job { get; set; } = null!;
+
     public ICollection<Schedule> Schedules { get; set; } = new List<Schedule>();
-    public ICollection<ScheduleRequest> ScheduleRequests { get; set; } = new List<ScheduleRequest>();
 }

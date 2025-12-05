@@ -1,8 +1,9 @@
-﻿namespace SchedulingSystem.Application.Dtos.Requests;
+namespace SchedulingSystem.Application.Dtos.Requests;
 
-public record SignUpRequest
-{
-    public string Email { get; set; } = string.Empty;
-    public string Password { get; set; } = string.Empty;
-    public string ConfirmPassword { get; set; } = string.Empty;
-}
+public record SignUpRequest(
+    string Email,
+    string Password,
+    string ConfirmPassword,
+    string FirstName,
+    string LastName,
+    string JobTitle);

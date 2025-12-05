@@ -46,10 +46,8 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, LoginResponse>
 
         _logger.LogInformation("User {UserId} logged in.", user.Id);
 
-        return new LoginResponse
-        {
-            Role = user.Role?.Name ?? "User",
-            AccessToken = token,
-        };
+        return new LoginResponse(
+            user.Role?.Name ?? "User",
+            token);
     }
 }

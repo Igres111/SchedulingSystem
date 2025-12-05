@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SchedulingSystem.Application.Interfaces;
+using SchedulingSystem.Infrastructure.Implementations.JobRepository;
 using SchedulingSystem.Infrastructure.Implementations.RoleRepository;
 using SchedulingSystem.Infrastructure.Implementations.UserRepository;
 using SchedulingSystem.Infrastructure.Persistence;
@@ -32,6 +33,7 @@ public static class DependencyInjection
         services.AddScoped<IPasswordHasher, PasswordHasher>();
         services.AddScoped<IRoleReadRepository, RoleReadRepository>();
         services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+        services.AddScoped<IJobReadRepository, JobReadRepository>();
 
         services.AddDbContext<SchedulingDbContext>(options =>
             options.UseNpgsql(connectionString));

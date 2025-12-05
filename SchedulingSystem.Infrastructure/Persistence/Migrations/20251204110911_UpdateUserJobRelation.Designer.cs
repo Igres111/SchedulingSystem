@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using SchedulingSystem.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ using SchedulingSystem.Infrastructure.Persistence;
 namespace SchedulingSystem.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(SchedulingDbContext))]
-    partial class SchedulingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251204110911_UpdateUserJobRelation")]
+    partial class UpdateUserJobRelation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -91,7 +94,7 @@ namespace SchedulingSystem.Infrastructure.Persistence.Migrations
                     b.Property<Guid>("JobId")
                         .HasColumnType("uuid");
 
-                    b.Property<int>("Status")
+                    b.Property<int>("ShiftType")
                         .HasColumnType("integer");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -107,6 +110,51 @@ namespace SchedulingSystem.Infrastructure.Persistence.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Schedules");
+                });
+
+            modelBuilder.Entity("SchedulingSystem.Domain.Entities.ScheduleRequest", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("JobId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("ReviewedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("ReviewedByUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("ShiftType")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("JobId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ScheduleRequests");
                 });
 
             modelBuilder.Entity("SchedulingSystem.Domain.Entities.User", b =>
@@ -174,6 +222,25 @@ namespace SchedulingSystem.Infrastructure.Persistence.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("SchedulingSystem.Domain.Entities.ScheduleRequest", b =>
+                {
+                    b.HasOne("SchedulingSystem.Domain.Entities.Job", "Job")
+                        .WithMany("ScheduleRequests")
+                        .HasForeignKey("JobId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SchedulingSystem.Domain.Entities.User", "User")
+                        .WithMany("ScheduleRequests")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Job");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("SchedulingSystem.Domain.Entities.User", b =>
                 {
                     b.HasOne("SchedulingSystem.Domain.Entities.Job", "Job")
@@ -195,6 +262,8 @@ namespace SchedulingSystem.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("SchedulingSystem.Domain.Entities.Job", b =>
                 {
+                    b.Navigation("ScheduleRequests");
+
                     b.Navigation("Schedules");
 
                     b.Navigation("Users");
@@ -207,6 +276,8 @@ namespace SchedulingSystem.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("SchedulingSystem.Domain.Entities.User", b =>
                 {
+                    b.Navigation("ScheduleRequests");
+
                     b.Navigation("Schedules");
                 });
 #pragma warning restore 612, 618

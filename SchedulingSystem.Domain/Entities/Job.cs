@@ -10,5 +10,5 @@ public class Job : BaseEntity
     public string? Description { get; set; }
 
     public ICollection<Schedule> Schedules { get; set; } = new List<Schedule>();
-    public ICollection<ScheduleRequest> ScheduleRequests { get; set; } = new List<ScheduleRequest>();
+    public ICollection<User> Users { get; set; } = new List<User>();
 }

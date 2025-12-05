@@ -14,5 +14,5 @@ public class Schedule : BaseEntity
     public User User { get; set; } = null!;
 
     public DateOnly Date { get; set; }
-    public ShiftType ShiftType { get; set; }
+    public ScheduleRequestStatus Status { get; set; } = ScheduleRequestStatus.Pending;
 }

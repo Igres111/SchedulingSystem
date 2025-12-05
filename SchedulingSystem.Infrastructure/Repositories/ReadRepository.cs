@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SchedulingSystem.Application.Interfaces;
 using SchedulingSystem.Infrastructure.Persistence;
 using System.Linq.Expressions;
@@ -50,5 +50,29 @@ public class ReadRepository<TEntity> : IReadRepository<TEntity>
         CancellationToken cancellationToken = default)
     {
         return DbSet.AsNoTracking().AnyAsync(expression, cancellationToken);
+    }
+
+    public async Task<(List<TEntity> Items, int TotalCount)> GetPagedAsync(
+        Expression<Func<TEntity, bool>>? filter,
+        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy,
+        int skip,
+        int take,
+        CancellationToken cancellationToken = default)
+    {
+        IQueryable<TEntity> query = DbSet.AsNoTracking();
+
+        if (filter is not null)
+        {
+            query = query.Where(filter);
+        }
+
+        var total = await query.CountAsync(cancellationToken);
+
+        var items = await orderBy(query)
+            .Skip(skip)
+            .Take(take)
+            .ToListAsync(cancellationToken);
+
+        return (items, total);
     }
 }

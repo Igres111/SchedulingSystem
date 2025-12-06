@@ -13,17 +13,20 @@ public class CreateScheduleCommandHandler
     private readonly IWriteRepository<Schedule> _scheduleWriteRepository;
     private readonly IReadRepository<User> _userReadRepository;
     private readonly IReadRepository<Job> _jobReadRepository;
+    private readonly IReadRepository<Role> _roleReadRepository;
 
     public CreateScheduleCommandHandler(
         IReadRepository<Schedule> scheduleReadRepository,
         IWriteRepository<Schedule> scheduleWriteRepository,
         IReadRepository<User> userReadRepository,
-        IReadRepository<Job> jobReadRepository)
+        IReadRepository<Job> jobReadRepository,
+        IReadRepository<Role> roleReadRepository)
     {
         _scheduleReadRepository = scheduleReadRepository;
         _scheduleWriteRepository = scheduleWriteRepository;
         _userReadRepository = userReadRepository;
         _jobReadRepository = jobReadRepository;
+        _roleReadRepository = roleReadRepository;
     }
 
     public async Task<ScheduleResponse> Handle(
@@ -42,7 +45,10 @@ public class CreateScheduleCommandHandler
             throw new InvalidOperationException("Job not found.");
         }
 
-        if (user.JobId != job.Id)
+        var role = await _roleReadRepository.GetByIdAsync(user.RoleId, cancellationToken);
+        var isAdmin = string.Equals(role?.Name, "Admin", StringComparison.OrdinalIgnoreCase);
+
+        if (!isAdmin && user.JobId != job.Id)
         {
             throw new InvalidOperationException(
                 "You can only create schedules for the job assigned to your account.");
@@ -75,6 +81,10 @@ public class CreateScheduleCommandHandler
             schedule.Id,
             schedule.JobId,
             schedule.UserId,
+            user.FirstName,
+            user.LastName,
+            job.Name,
+            schedule.Status.ToString(),
             schedule.Date,
             schedule.Status);
     }

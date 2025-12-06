@@ -10,10 +10,17 @@ public class GetSchedulesQueryHandler
     : IRequestHandler<GetSchedulesQuery, PagedResponse<ScheduleResponse>>
 {
     private readonly IReadRepository<Schedule> _scheduleReadRepository;
+    private readonly IReadRepository<User> _userReadRepository;
+    private readonly IReadRepository<Job> _jobReadRepository;
 
-    public GetSchedulesQueryHandler(IReadRepository<Schedule> scheduleReadRepository)
+    public GetSchedulesQueryHandler(
+        IReadRepository<Schedule> scheduleReadRepository,
+        IReadRepository<User> userReadRepository,
+        IReadRepository<Job> jobReadRepository)
     {
         _scheduleReadRepository = scheduleReadRepository;
+        _userReadRepository = userReadRepository;
+        _jobReadRepository = jobReadRepository;
     }
 
     public async Task<PagedResponse<ScheduleResponse>> Handle(
@@ -35,13 +42,32 @@ public class GetSchedulesQueryHandler
             take: pageSize,
             cancellationToken);
 
+        var userIds = items.Select(s => s.UserId).Distinct().ToList();
+        var jobIds = items.Select(s => s.JobId).Distinct().ToList();
+
+        var users = await _userReadRepository.GetAllAsync(u => userIds.Contains(u.Id), cancellationToken);
+        var jobs = await _jobReadRepository.GetAllAsync(j => jobIds.Contains(j.Id), cancellationToken);
+
+        var userLookup = users.ToDictionary(u => u.Id);
+        var jobLookup = jobs.ToDictionary(j => j.Id);
+
         var mapped = items
-            .Select(s => new ScheduleResponse(
-                s.Id,
-                s.JobId,
-                s.UserId,
-                s.Date,
-                s.Status))
+            .Select(s =>
+            {
+                var user = userLookup[s.UserId];
+                var job = jobLookup[s.JobId];
+
+                return new ScheduleResponse(
+                    s.Id,
+                    s.JobId,
+                    s.UserId,
+                    user.FirstName,
+                    user.LastName,
+                    job.Name,
+                    s.Status.ToString(),
+                    s.Date,
+                    s.Status);
+            })
             .ToList();
 
         return new PagedResponse<ScheduleResponse>(mapped, totalCount, pageNumber, pageSize);

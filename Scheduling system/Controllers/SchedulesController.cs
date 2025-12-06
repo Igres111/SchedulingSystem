@@ -79,9 +79,9 @@ public class SchedulesController : ControllerBase
 
         var command = new CreateScheduleCommand(request.JobId, Guid.Parse(userIdClaim), request.Date);
 
-        var result = await _mediator.Send(command, cancellationToken);
+        await _mediator.Send(command, cancellationToken);
 
-        return Created("", result);
+        return StatusCode(StatusCodes.Status201Created);
     }
 
     /// <summary>

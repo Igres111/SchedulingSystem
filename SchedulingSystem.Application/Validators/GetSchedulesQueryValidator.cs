@@ -1,5 +1,5 @@
 using FluentValidation;
-using SchedulingSystem.Application.Queries;
+using SchedulingSystem.Application.Queries.GetSchedules;
 
 namespace SchedulingSystem.Application.Validators;
 

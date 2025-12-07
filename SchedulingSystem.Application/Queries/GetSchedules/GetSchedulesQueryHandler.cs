@@ -4,7 +4,7 @@ using SchedulingSystem.Application.Dtos.Responses;
 using SchedulingSystem.Application.Interfaces;
 using SchedulingSystem.Domain.Entities;
 
-namespace SchedulingSystem.Application.Queries;
+namespace SchedulingSystem.Application.Queries.GetSchedules;
 
 public class GetSchedulesQueryHandler
     : IRequestHandler<GetSchedulesQuery, PagedResponse<ScheduleResponse>>

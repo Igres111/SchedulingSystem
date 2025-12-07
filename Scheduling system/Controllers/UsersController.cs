@@ -2,8 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SchedulingSystem.Application.Dtos.Responses;
-using SchedulingSystem.Application.Queries;
-using System.Security.Claims;
+using SchedulingSystem.Application.Queries.GetJobs;
 
 namespace SchedulingSystem.WebApi.Controllers;
 
@@ -29,14 +28,7 @@ public class UsersController : ControllerBase
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> GetUserJob(CancellationToken cancellationToken = default)
     {
-        var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-        if (string.IsNullOrWhiteSpace(userIdClaim) || !Guid.TryParse(userIdClaim, out var userId))
-        {
-            return Unauthorized("Invalid or missing user ID in the token.");
-        }
-
-        var response = await _mediator.Send(new GetUserJobQuery(userId), cancellationToken);
+        var response = await _mediator.Send(new GetJobsQuery(), cancellationToken);
 
         return Ok(response);
     }

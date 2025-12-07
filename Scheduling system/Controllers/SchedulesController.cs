@@ -5,7 +5,7 @@ using SchedulingSystem.Application.Commands.CreateSchedule;
 using SchedulingSystem.Application.Commands.UpdateScheduleStatus;
 using SchedulingSystem.Application.Dtos.Requests;
 using SchedulingSystem.Application.Dtos.Responses;
-using SchedulingSystem.Application.Queries;
+using SchedulingSystem.Application.Queries.GetSchedules;
 using System.Security.Claims;
 
 namespace SchedulingSystem.WebApi.Controllers;
